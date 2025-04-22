@@ -11,7 +11,7 @@
   <sap:VirtualizedContainerService.HintSize>1191.3333333333333,2730</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
-    <scg:List x:TypeArguments="x:String" Capacity="32">
+    <scg:List x:TypeArguments="x:String" Capacity="64">
       <x:String>System.Activities</x:String>
       <x:String>System.Activities.Statements</x:String>
       <x:String>System.Activities.Expressions</x:String>
@@ -44,6 +44,7 @@
       <x:String>UiPath.Shared.Activities.Business</x:String>
       <x:String>System.Reflection</x:String>
       <x:String>System.ComponentModel</x:String>
+      <x:String>System.Linq.Expressions</x:String>
     </scg:List>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
@@ -96,9 +97,10 @@
       <AssemblyReference>UiPath.UIAutomationNext.Activities</AssemblyReference>
       <AssemblyReference>UiPath.Workflow</AssemblyReference>
       <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>System.Linq.Expressions</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap2010:Annotation.AnnotationText="Asks the user to select a .zip file containing client information. Renames the contracts and invoices using the folder (company) names and stores them in dedicated folders.&#xA;&#xA;Preconditions:&#xA;- The .zip file contains folders named after client companies.&#xA;- The company folders contain invoices and contracts.&#xA;- The invoice and contract file names contain the words invoice and contract. " DisplayName="Extract, Rename and Sort Invoices and Contracts" sap:VirtualizedContainerService.HintSize="659.3333333333334,2665.3333333333335" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence sap2010:Annotation.AnnotationText="Asks the user to select a .zip file containing client information. Renames the contracts and invoices using the folder (company) names and stores them in dedicated folders.&#xA;&#xA;Preconditions:&#xA;- The .zip file contains folders named after client companies.&#xA;- The company folders contain invoices and contracts.&#xA;- The invoice and contract file names contain the words invoice and contract. " DisplayName="Extract, Rename and Sort Invoices and Contracts" sap:VirtualizedContainerService.HintSize="601,2462" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:String" Name="InputFilePath" />
       <Variable x:TypeArguments="si:FileInfo" Name="InputFileInfo" />
@@ -115,21 +117,40 @@
         <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <ui:SelectFile sap2010:Annotation.AnnotationText="Get input .zip file path from user." DisplayName="Browse For Input File" Filter="All files (*.*)|*.*" sap:VirtualizedContainerService.HintSize="597.3333333333334,172" sap2010:WorkflowViewState.IdRef="SelectFile_1" SelectedFile="[InputFilePath]">
+    <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="597,84" sap2010:WorkflowViewState.IdRef="CommentOut_1">
+      <ui:CommentOut.Body>
+        <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="450,252" sap2010:WorkflowViewState.IdRef="Sequence_26">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ui:SelectFile sap2010:Annotation.AnnotationText="Get input .zip file path from user." DisplayName="Browse For Input File" Filter="All files (*.*)|*.*" sap:VirtualizedContainerService.HintSize="416,192" sap2010:WorkflowViewState.IdRef="SelectFile_1" SelectedFile="[InputFilePath]">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+          </ui:SelectFile>
+        </Sequence>
+      </ui:CommentOut.Body>
       <sap:WorkflowViewStateService.ViewState>
         <scg:Dictionary x:TypeArguments="x:String, x:Object">
-          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
-    </ui:SelectFile>
-    <ui:GetFileInfoX sap2010:Annotation.AnnotationText="Get .zip file info." DisplayName="Get Documents File Info" FilePath="[InputFilePath]" sap:VirtualizedContainerService.HintSize="597.3333333333334,167.33333333333334" sap2010:WorkflowViewState.IdRef="GetFileInfoX_1" Output="[InputFileInfo]">
+    </ui:CommentOut>
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="597,124" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Done&quot;]" />
+    <ui:GetFileInfoX sap2010:Annotation.AnnotationText="Get .zip file info." DisplayName="Get Documents File Info" FilePath="[InputFilePath]" sap:VirtualizedContainerService.HintSize="597,196" sap2010:WorkflowViewState.IdRef="GetFileInfoX_1" Output="[InputFileInfo]">
       <sap:WorkflowViewStateService.ViewState>
         <scg:Dictionary x:TypeArguments="x:String, x:Object">
           <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
     </ui:GetFileInfoX>
-    <ui:MultipleAssign DisplayName="Multiple Assign File and Folder Paths" sap:VirtualizedContainerService.HintSize="597.3333333333334,223.33333333333334" sap2010:WorkflowViewState.IdRef="MultipleAssign_1">
+    <WriteLine DisplayName="Write Line" sap:VirtualizedContainerService.HintSize="597,122" sap2010:WorkflowViewState.IdRef="WriteLine_1" Text="kknkn" />
+    <ui:MultipleAssign DisplayName="Multiple Assign File and Folder Paths" sap:VirtualizedContainerService.HintSize="597,257" sap2010:WorkflowViewState.IdRef="MultipleAssign_1">
       <ui:MultipleAssign.AssignOperations>
         <scg:List x:TypeArguments="ui:AssignOperation" Capacity="8">
           <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_1">
